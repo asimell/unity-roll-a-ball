@@ -63,7 +63,6 @@ namespace Tests
                 yield return null;
             }
 
-
             // Move Left
             rb.AddForce(player.movement.Calculate(-1, 0, 1.0f));
 
@@ -127,8 +126,6 @@ namespace Tests
                 float distance = Vector3.Distance(rb.transform.position, blob.transform.position);
                 Assert.LessOrEqual(distance, gameController.spawnRadius);
             }
-
-
             yield return null;
         }
 
