@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameController : MonoBehaviour
     public int maxAllowedBlobs;
     public GameObject player;
     public GameObject blob;
+    public Text gameOverText;
 
     private float timeForNextBlob;
 
@@ -16,6 +18,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         timeForNextBlob = 0f;
+        gameOverText.gameObject.SetActive(false);
+        gameOverText.text = "";
     }
 
     // Update is called once per frame
@@ -23,10 +27,10 @@ public class GameController : MonoBehaviour
     {
         if (IsGameOver())
         {
+            SetGameOverText();
             Destroy(player);
             return;
         }
-
         if (timeForNextBlob < 0.001f)
         {
             SpawnBlob();
@@ -60,5 +64,14 @@ public class GameController : MonoBehaviour
     {
         GameObject[] blobs = GameObject.FindGameObjectsWithTag("blob");
         return blobs.Length > maxAllowedBlobs;
+    }
+
+    private void SetGameOverText()
+    {
+        if (player)
+        {
+            gameOverText.gameObject.SetActive(true);
+            gameOverText.text = "Final score: " + player.GetComponent<PlayerController>().GetPoints();
+        }
     }
 }

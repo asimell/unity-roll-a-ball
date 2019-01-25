@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     private int points;
     private Rigidbody rb;
+
+    public Text pointsText;
 
     public int GetPoints()
     {
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         points = 0;
         movement = new Movement(speed);
+        SetPointsText();
     }
 
     // Update is called once per frame
@@ -45,7 +49,13 @@ public class PlayerController : MonoBehaviour
         {
             points++;
             Destroy(other.gameObject);
+            SetPointsText();
         }
+    }
+
+    private void SetPointsText()
+    {
+        pointsText.text = "Points: " + points.ToString();
     }
 }
 
