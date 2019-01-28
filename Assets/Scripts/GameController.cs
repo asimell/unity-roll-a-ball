@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -13,6 +11,7 @@ public class GameController : MonoBehaviour
     public Text gameOverText;
 
     private float timeForNextBlob;
+    [HideInInspector] public int currentBlobs;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +19,7 @@ public class GameController : MonoBehaviour
         timeForNextBlob = 0f;
         gameOverText.gameObject.SetActive(false);
         gameOverText.text = "";
+        currentBlobs = 0;
     }
 
     // Update is called once per frame
@@ -58,12 +58,12 @@ public class GameController : MonoBehaviour
         else if (pos.z < -5f)
             pos.z = -5f;
         Instantiate(blob, pos, Quaternion.identity);
+        currentBlobs++;
     }
 
     private bool IsGameOver()
     {
-        GameObject[] blobs = GameObject.FindGameObjectsWithTag("blob");
-        return blobs.Length > maxAllowedBlobs;
+        return currentBlobs > maxAllowedBlobs;
     }
 
     private void SetGameOverText()

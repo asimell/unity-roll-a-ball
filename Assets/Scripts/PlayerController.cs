@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -11,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     private int points;
     private Rigidbody rb;
+    private GameController controller;
 
     public Text pointsText;
 
@@ -24,11 +23,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         points = 0;
+        controller = GameObject.Find("GameController").GetComponent<GameController>();
         movement = new Movement(speed);
         SetPointsText();
     }
 
-    // Update is called once per frame
+    // FixedUpdate is called once per frame with a constant framerate
     void FixedUpdate()
     {
         Move();
@@ -45,10 +45,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "blob")
+        if (other.gameObject.CompareTag("blob"))
         {
             points++;
             Destroy(other.gameObject);
+            controller.currentBlobs--;
             SetPointsText();
         }
     }
